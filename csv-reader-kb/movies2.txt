@@ -1,0 +1,7 @@
+NAZEV,HODNOCENI
+Forrest Gump, 94
+
+Terminator 2,90
+     
+Die Hard,89
+Top Gun: Maverick,87
