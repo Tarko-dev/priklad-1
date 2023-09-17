@@ -29,12 +29,11 @@ public class CSVData {
      * @return The key corresponding to the highest-rated value, or null if the data is empty.
      */
     public String highestRatedKey() {
-        for (Map.Entry<String, Integer> entry : data.entrySet()) {
-            if (Objects.equals(entry.getValue(), values.get(0))) {
-                return entry.getKey();
-            }
-        }
-        return null;
+        return data.entrySet().stream()
+                .filter(entry -> entry.getValue().equals(values.get(size()-1)))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList())
+                .get(0);
     }
 
     /**
@@ -43,12 +42,10 @@ public class CSVData {
      * @return The key corresponding to the lowest-rated value, or null if the data is empty.
      */
     public String lowestRatedKey() {
-        for (Map.Entry<String, Integer> entry : data.entrySet()) {
-            if (Objects.equals(entry.getValue(), values.get(values.size() - 1))) {
-                return entry.getKey();
-            }
-        }
-        return null;
+        return data.entrySet().stream()
+                .filter(entry -> entry.getValue().equals(values.get(0)))
+                .findFirst()
+                .get().getKey();
     }
 
 

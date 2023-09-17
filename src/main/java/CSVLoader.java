@@ -3,10 +3,7 @@ import com.opencsv.exceptions.CsvException;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CSVLoader {
 
@@ -28,19 +25,17 @@ public class CSVLoader {
 
         try (CSVReader reader = new CSVReader(new FileReader(filename))) {
             csvData = reader.readAll();
-            for (String[] row : csvData)
-                if (row.length==2){
-                    try {
-                        Integer value = Integer.valueOf(row[1]);
-                        data.put(row[0], value);
-                    } catch (NumberFormatException e) {
-                        if (!columnsLoaded){
-                            columnsNames.add(row[0]);
-                            columnsNames.add(row[1]);
-                            columnsLoaded = true;
-                        } //else throw new CsvException("Bad format of csv file: " + filename);
-                    }
-                }
+
+            csvData.stream().skip(1).
+                    filter(row -> row.length==2 )
+                    .forEach(row -> {
+                    Integer value = Integer.valueOf(row[1]);
+                    data.put(row[0], value);
+            });
+
+            columnsNames = Arrays.stream(csvData.stream()
+                    .filter(row -> row.length==2)
+                    .findFirst().get()).toList();
         } catch (IOException | CsvException e) {
             e.printStackTrace();
         }
