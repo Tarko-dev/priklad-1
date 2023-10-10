@@ -1,7 +1,5 @@
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class CSVData {
 
@@ -12,7 +10,9 @@ public class CSVData {
     public CSVData(List<String> columnsNames, Map<String, Integer> data) {
         this.columnsNames = columnsNames;
         this.data = data;
-        this.values = data.values().stream().sorted().collect(Collectors.toList());
+        this.values = data.values().stream()
+                .sorted()
+                .toList();
     }
 
     public List<String> getColumnsNames() {
@@ -32,7 +32,7 @@ public class CSVData {
         return data.entrySet().stream()
                 .filter(entry -> entry.getValue().equals(values.get(size()-1)))
                 .map(Map.Entry::getKey)
-                .collect(Collectors.toList())
+                .toList()
                 .get(0);
     }
 
@@ -45,7 +45,8 @@ public class CSVData {
         return data.entrySet().stream()
                 .filter(entry -> entry.getValue().equals(values.get(0)))
                 .findFirst()
-                .get().getKey();
+                .get()
+                .getKey();
     }
 
 
@@ -55,10 +56,12 @@ public class CSVData {
      * @return The average of the values, or -1 if the data is empty.
      */
     public long average() {
-        if (values.size()==0){
+        if (values.isEmpty()){
             return -1;
         }
-        int sum = values.stream().mapToInt(number -> number).sum();
+        int sum = values.stream()
+                .mapToInt(number -> number)
+                .sum();
         return sum/values.size();
     }
 
