@@ -1,3 +1,7 @@
+package me.jmatura.priklad1;
+
+import me.jmatura.priklad1.CSVData;
+import me.jmatura.priklad1.CSVLoader;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

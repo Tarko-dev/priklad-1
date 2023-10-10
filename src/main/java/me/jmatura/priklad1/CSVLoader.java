@@ -1,11 +1,16 @@
+package me.jmatura.priklad1;
+
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
+import lombok.extern.slf4j.Slf4j;
+
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class CSVLoader {
 
     /**
@@ -13,8 +18,6 @@ public class CSVLoader {
      *
      * @param filename The path to the CSV file to be loaded.
      * @return A {@link CSVData} object representing the parsed CSV data.
-     * @throws IOException If there is an error reading the CSV file.
-     * @throws CsvException If there is an issue parsing the CSV data.
      */
     public CSVData loadCSV(String filename){
         List<String[]> csvData;
@@ -35,7 +38,7 @@ public class CSVLoader {
                     .get())
                     .toList();
         } catch (IOException | CsvException e) {
-            e.printStackTrace();
+            log.error("Failed while trying to consume the csv: {}",e.getMessage());
         }
         return new CSVData(columnsNames, data);
     }

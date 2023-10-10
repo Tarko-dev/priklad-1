@@ -1,9 +1,15 @@
+package me.jmatura.priklad1;
+
+import lombok.Getter;
+
 import java.util.List;
 import java.util.Map;
 
 public class CSVData {
 
+    @Getter
     private final List<String> columnsNames;
+    @Getter
     private final Map<String, Integer> data;
     private final List<Integer> values;
 
@@ -13,14 +19,6 @@ public class CSVData {
         this.values = data.values().stream()
                 .sorted()
                 .toList();
-    }
-
-    public List<String> getColumnsNames() {
-        return columnsNames;
-    }
-
-    public Map<String, Integer> getData() {
-        return data;
     }
 
     /**
@@ -77,10 +75,7 @@ public class CSVData {
 
     @Override
     public String toString(){
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder
-                .append(columnsNames)
-                .append(data);
-        return stringBuilder.toString();
+        return String.valueOf(columnsNames) +
+                data;
     }
 }
