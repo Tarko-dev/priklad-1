@@ -1,3 +1,5 @@
+package me.jmatura.priklad1;
+
 public class Executor {
 
       private static final String FILENAME = "movies.txt";

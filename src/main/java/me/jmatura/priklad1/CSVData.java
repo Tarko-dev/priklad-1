@@ -1,26 +1,24 @@
+package me.jmatura.priklad1;
+
+import lombok.Getter;
+
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class CSVData {
 
+    @Getter
     private final List<String> columnsNames;
+    @Getter
     private final Map<String, Integer> data;
     private final List<Integer> values;
 
     public CSVData(List<String> columnsNames, Map<String, Integer> data) {
         this.columnsNames = columnsNames;
         this.data = data;
-        this.values = data.values().stream().sorted().collect(Collectors.toList());
-    }
-
-    public List<String> getColumnsNames() {
-        return columnsNames;
-    }
-
-    public Map<String, Integer> getData() {
-        return data;
+        this.values = data.values().stream()
+                .sorted()
+                .toList();
     }
 
     /**
@@ -29,12 +27,11 @@ public class CSVData {
      * @return The key corresponding to the highest-rated value, or null if the data is empty.
      */
     public String highestRatedKey() {
-        for (Map.Entry<String, Integer> entry : data.entrySet()) {
-            if (Objects.equals(entry.getValue(), values.get(0))) {
-                return entry.getKey();
-            }
-        }
-        return null;
+        return data.entrySet().stream()
+                .filter(entry -> entry.getValue().equals(values.get(size()-1)))
+                .map(Map.Entry::getKey)
+                .toList()
+                .get(0);
     }
 
     /**
@@ -43,12 +40,11 @@ public class CSVData {
      * @return The key corresponding to the lowest-rated value, or null if the data is empty.
      */
     public String lowestRatedKey() {
-        for (Map.Entry<String, Integer> entry : data.entrySet()) {
-            if (Objects.equals(entry.getValue(), values.get(values.size() - 1))) {
-                return entry.getKey();
-            }
-        }
-        return null;
+        return data.entrySet().stream()
+                .filter(entry -> entry.getValue().equals(values.get(0)))
+                .findFirst()
+                .get()
+                .getKey();
     }
 
 
@@ -58,10 +54,12 @@ public class CSVData {
      * @return The average of the values, or -1 if the data is empty.
      */
     public long average() {
-        if (values.size()==0){
+        if (values.isEmpty()){
             return -1;
         }
-        int sum = values.stream().mapToInt(number -> number).sum();
+        int sum = values.stream()
+                .mapToInt(number -> number)
+                .sum();
         return sum/values.size();
     }
 
@@ -77,10 +75,7 @@ public class CSVData {
 
     @Override
     public String toString(){
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder
-                .append(columnsNames)
-                .append(data);
-        return stringBuilder.toString();
+        return String.valueOf(columnsNames) +
+                data;
     }
 }
